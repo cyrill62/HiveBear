@@ -13,7 +13,7 @@ cd apps/desktop && npm audit --audit-level=critical                    # NPM aud
 cargo check -p hivebear-core -p hivebear-inference --target aarch64-unknown-linux-gnu  # ARM cross-check
 ```
 
-## Workspace (8 crates)
+## Workspace (11 crates)
 | Crate | Purpose |
 |-------|---------|
 | `hivebear-core` | Hardware profiling, config, types. Foundation — no deps on other crates |
@@ -24,6 +24,9 @@ cargo check -p hivebear-core -p hivebear-inference --target aarch64-unknown-linu
 | `hivebear-cli` | CLI binary (`hivebear`) + Ollama-compatible API server (axum + SSE) |
 | `hivebear-web` | WASM bridge (cdylib). NOT in default-members — build via wasm-pack only |
 | `apps/desktop/src-tauri` | Tauri 2 desktop app (React 19 + Vite 6 + TailwindCSS 4) |
+| `hivebear-egui` | Native egui/eframe desktop app (binary `hivebear-egui`), same features as the Tauri UI, desktop only |
+| `hivebear-iced-gui` | Native iced 0.14 desktop app (binary `hivebear-iced-gui`), same features as `hivebear-egui`, desktop only |
+| `hivebear-gpui` | Native GPUI desktop app on Longbridge's GPUI Kit 0.7 (binary `hivebear-gpui`), same features as `hivebear-egui`, desktop only |
 
 ## Critical Gotchas
 - `hivebear-web` is excluded from default-members — `cargo build` skips it intentionally

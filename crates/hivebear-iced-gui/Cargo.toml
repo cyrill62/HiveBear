@@ -1,0 +1,49 @@
+[package]
+name = "hivebear-iced-gui"
+description = "HiveBear desktop app with a native iced interface"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+hivebear-core = { path = "../hivebear-core" }
+hivebear-inference = { path = "../hivebear-inference", default-features = false }
+hivebear-mesh = { path = "../hivebear-mesh" }
+hivebear-persistence = { path = "../hivebear-persistence" }
+hivebear-registry = { path = "../hivebear-registry" }
+
+iced = { version = "0.14", features = ["tokio", "markdown", "highlighter", "image", "advanced", "fira-sans"] }
+
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+hex = "0.4"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+futures = "0.3"
+open = "5"
+semver = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+# Crash reporting. default-features is off because the default `transport`
+# feature pulls in native-tls, and HiveBear is rustls-only at runtime.
+sentry = { version = "0.49", default-features = false, features = [
+    "backtrace",
+    "contexts",
+    "debug-images",
+    "panic",
+    "logs",
+    "release-health",
+    "reqwest",
+    "rustls",
+    "tracing",
+] }
+
+[features]
+default = ["llamacpp", "candle"]
+llamacpp = ["hivebear-inference/llamacpp"]
+llamacpp-metal = ["llamacpp", "hivebear-inference/llamacpp-metal"]
+llamacpp-cuda = ["llamacpp", "hivebear-inference/llamacpp-cuda"]
+llamacpp-vulkan = ["llamacpp", "hivebear-inference/llamacpp-vulkan"]
+candle = ["hivebear-inference/candle"]
